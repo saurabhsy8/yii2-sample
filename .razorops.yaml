@@ -1,9 +1,9 @@
 version: v2
 
-# global:
-#   runner:
-#     containers:
-#       - image: razorci/ruby
+global:
+  runner:
+    containers:
+      - image: python
 
 tasks:    
   deploy:
@@ -14,7 +14,7 @@ tasks:
     - checkout
     - commands:
       - |
-        /home/razor/.pyenv/versions/3.10.5/bin/python3.10 -m pip install --upgrade pip
+        pip install --upgrade pip
         pip install awsebcli --upgrade --user
         eb --version
         # sudo pip3 install virtualenv
