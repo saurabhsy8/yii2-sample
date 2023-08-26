@@ -14,8 +14,8 @@ tasks:
     - checkout
     - commands:
       - |
-
-        pip3 install awsebcli --upgrade --user
+        /home/razor/.pyenv/versions/3.10.5/bin/python3.10 -m pip install --upgrade pip
+        pip install awsebcli --upgrade --user
         eb --version
         # sudo pip3 install virtualenv
         # # composer create-project --prefer-dist yiisoft/yii2-app-basic basic
