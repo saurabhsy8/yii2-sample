@@ -6,6 +6,18 @@ version: v2
 #       - image: razorci/ruby
 
 tasks:    
+  deploy:
+    variables:
+    - APP_NAME=cloudmey
+    # - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
+    steps:
+    - checkout
+    - commands:
+      - |
+        composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+        git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
+        python ./aws-elastic-beanstalk-cli-setup/scripts/ebcli_installer.py
+
   # build-image:
   #   steps:
   #   - checkout
@@ -26,17 +38,6 @@ tasks:
   #   - workspace/persist:
   #       paths: [deploy]
 
-  deploy:
-    depends: [build-image]
-    variables:
-    - APP_NAME=cloudmey
-    - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
-    steps:
-    - checkout
-    - commands:
-      - |
-          composer create-project --prefer-dist yiisoft/yii2-app-basic basic
-          git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
-          python ./aws-elastic-beanstalk-cli-setup/scripts/ebcli_installer.py
+
 # trigger:
   # when: branch in ("stage", "prod")
