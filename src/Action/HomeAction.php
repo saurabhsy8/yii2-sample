@@ -14,7 +14,7 @@ final class HomeAction
         $response = $responseFactory->createResponse();
 
         $response->getBody()->write(
-            'Hello World This is the change' . '<br>' . 'My first website with ' . '<strong>' . 'Yii 3.0!' . '</strong>'
+            'Hello World This is the changess' . '<br>' . 'My first website with ' . '<strong>' . 'Yii 3.0!' . '</strong>'
         );
 
         return $response;
