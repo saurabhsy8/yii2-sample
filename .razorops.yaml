@@ -14,6 +14,7 @@ tasks:
     - checkout
     - commands:
       - |
+        sudo apt update
         sudo apt-get install php-curl php-mbstring php-zip php-dom
         pip install PyYAML==5.3.1
         pip install awsebcli --upgrade --user
