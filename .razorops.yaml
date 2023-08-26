@@ -14,9 +14,10 @@ tasks:
     - checkout
     - commands:
       - |
+        sudo pip3 install virtualenv
         # composer create-project --prefer-dist yiisoft/yii2-app-basic basic
         git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
-        python ./aws-elastic-beanstalk-cli-setup/scripts/ebcli_installer.py
+        python3 ./aws-elastic-beanstalk-cli-setup/scripts/ebcli_installer.py
 
   # build-image:
   #   steps:
