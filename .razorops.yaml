@@ -1,0 +1,42 @@
+version: v2
+
+# global:
+#   runner:
+#     containers:
+#       - image: razorci/ruby
+
+tasks:    
+  # build-image:
+  #   steps:
+  #   - checkout
+  #   - commands: 
+  #     - helm lint $HELM_CHART
+  #   - docker/build:
+  #       image: registry.digitalocean.com/cloudmeyrazo/newprdgamesmela
+  #       tags: ["latest", "${CI_COMMIT_SHA:0:8}", "${CI_REPO_BRANCH}"]
+  #       push: true
+  #     if: branch == "prod"
+
+  #   - docker/build:
+  #       image: registry.digitalocean.com/cloudmeyrazo/newstggamesmela
+  #       tags: ["latest", "${CI_COMMIT_SHA:0:8}", "${CI_REPO_BRANCH}"]
+  #       push: true
+  #     if: branch == "stage"
+
+  #   - workspace/persist:
+  #       paths: [deploy]
+
+  deploy:
+    depends: [build-image]
+    variables:
+    - APP_NAME=cloudmey
+    - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
+    steps:
+    - checkout
+    - commands:
+      - |
+          composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+          git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
+          python ./aws-elastic-beanstalk-cli-setup/scripts/ebcli_installer.py
+# trigger:
+  # when: branch in ("stage", "prod")
