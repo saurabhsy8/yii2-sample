@@ -17,11 +17,9 @@ tasks:
         pip install PyYAML==5.3.1
         pip install awsebcli --upgrade --user
         eb --version
-        # sudo pip3 install virtualenv
-        # # composer create-project --prefer-dist yiisoft/yii2-app-basic basic
-        # git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
-        # python3 ./aws-elastic-beanstalk-cli-setup/scripts/ebcli_installer.py
-
+        pip install virtualenv
+        composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+      
   # build-image:
   #   steps:
   #   - checkout
