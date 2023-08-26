@@ -1,9 +1,9 @@
 version: v2
 
-global:
-  runner:
-    containers:
-      - image: python
+# global:
+#   runner:
+#     containers:
+#       - image: python
 
 tasks:    
   deploy:
