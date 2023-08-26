@@ -1,0 +1,4 @@
+.idea/
+vendor/
+analysis.txt
+.phpunit.result.cache

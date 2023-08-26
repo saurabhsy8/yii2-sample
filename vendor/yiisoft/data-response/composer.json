@@ -1,0 +1,62 @@
+{
+    "name": "yiisoft/data-response",
+    "type": "library",
+    "description": "Allows responding with data that is automatically converted into PSR-7 response",
+    "keywords": [
+        "data",
+        "psr-7",
+        "response"
+    ],
+    "homepage": "https://www.yiiframework.com/",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/yiisoft/data-response/issues?state=open",
+        "forum": "https://www.yiiframework.com/forum/",
+        "wiki": "https://www.yiiframework.com/wiki/",
+        "irc": "irc://irc.freenode.net/yii",
+        "source": "https://github.com/yiisoft/data-response"
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "psr/http-message": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "yiisoft/http": "^1.0",
+        "yiisoft/json": "^1.0",
+        "yiisoft/strings": "^2.0"
+    },
+    "require-dev": {
+        "httpsoft/http-message": "^1.0",
+        "phpunit/phpunit": "^9.5",
+        "roave/infection-static-analysis-plugin": "^1.7",
+        "spatie/phpunit-watcher": "^1.23",
+        "vimeo/psalm": "^4.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yiisoft\\DataResponse\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yiisoft\\DataResponse\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "config-plugin-options": {
+            "source-directory": "config"
+        },
+        "config-plugin": {
+            "params": "params.php",
+            "web": "web.php"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit --testdox --no-interaction",
+        "test-watch": "phpunit-watcher watch"
+    }
+}

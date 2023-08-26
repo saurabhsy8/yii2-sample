@@ -14,13 +14,15 @@ tasks:
     - checkout
     - commands:
       - |
+        ls
         sudo apt update
         sudo apt-get install php-curl php-mbstring php-zip php-dom
         pip install PyYAML==5.3.1
         pip install awsebcli --upgrade --user
         eb --version
-        pip install virtualenv
-        composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+        eb init $ENV_NAME --platform PHP --region $AWS_DEFAULT_REGION --quiet
+        eb list
+        
       
   # build-image:
   #   steps:

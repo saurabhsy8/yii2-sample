@@ -1,0 +1,60 @@
+{
+    "name": "yiisoft/log-target-file",
+    "type": "library",
+    "description": "Yii Logging Library - File Target",
+    "keywords": [
+        "yii",
+        "framework",
+        "log",
+        "logger"
+    ],
+    "homepage": "http://www.yiiframework.com/",
+    "license": "BSD-3-Clause",
+    "support": {
+        "source": "https://github.com/yiisoft/log-target-file",
+        "issues": "https://github.com/yiisoft/log-target-file/issues",
+        "forum": "http://www.yiiframework.com/forum/",
+        "wiki": "http://www.yiiframework.com/wiki/",
+        "irc": "irc://irc.freenode.net/yii"
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "yiisoft/files": "^1.0",
+        "yiisoft/log": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4",
+        "roave/infection-static-analysis-plugin": "^1.5",
+        "spatie/phpunit-watcher": "^1.23",
+        "vimeo/psalm": "^4.2"
+    },
+    "suggest": {
+        "ext-zlib": "Enabling gzip compression of rotated files."
+    },
+    "autoload": {
+        "psr-4": {
+            "Yiisoft\\Log\\Target\\File\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yiisoft\\Log\\Target\\File\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "config-plugin-options": {
+            "source-directory": "config"
+        },
+        "config-plugin": {
+            "common": "common.php",
+            "params": "params.php"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit --testdox --no-interaction",
+        "test-watch": "phpunit-watcher watch"
+    }
+}
