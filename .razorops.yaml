@@ -7,6 +7,7 @@ tasks:
     - VERSION=${CI_COMMIT_SHA:0:8}
     - ENV_NAME=Yii2-sample-env-1
     - AWS_REGION=us-east-1
+    - PLATFORM=PHP
     steps:
     - checkout
     - commands:
@@ -24,12 +25,15 @@ tasks:
         fi
       - |
         ls
-        sudo apt update
-        sudo apt-get install php-curl php-mbstring php-zip php-dom
-        pip install PyYAML==5.3.1
-        pip install awsebcli --upgrade --user
-        eb --version
-        eb init $APP_NAME --platform PHP --region $AWS_REGION --quiet
+        sudo apt -qq update
+        # sudo apt-get -qq install php-curl php-mbstring php-zip php-dom
+        pip -q install PyYAML==5.3.1
+        pip -q install awsebcli --upgrade --user
+        
+
+        eb init $APP_NAME --platform $PLATFORM --region $AWS_REGION --quiet
+        
+        eb list
         
         # First create a version with git hash (label)
         # eb appversion -a $APP_NAME -c -l VERSION
