@@ -36,7 +36,7 @@ tasks:
         eb list
         
         # First create a version with git hash (label)
-        eb appversion -a $APP_NAME -c -l VERSION
+        eb appversion -a $APP_NAME -c -l $VERSION
 
         # Deploy to $VERSION to $ENV_NAME envrionment
         eb deploy $ENV_NAME --version $VERSION
