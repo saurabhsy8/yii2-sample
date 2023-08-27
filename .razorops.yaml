@@ -13,9 +13,11 @@ tasks:
     - commands:
       - |
         if [[ $CI_REPO_BRANCH == "prod" ]]; then
-                  VALUES_FILE=values-prod.yaml
                   ENV_NAME=prod
-          
+
+          elif [[ $CI_REPO_BRANCH == "stage" ]]; then
+                  ENV_NAME=test
+
           elif [[ $CI_REPO_BRANCH == "stage" ]]; then
                   ENV_NAME=Yii2-sample-env-1
           
@@ -24,7 +26,6 @@ tasks:
               exit 1
         fi
       - |
-        ls
         sudo apt -qq update
         # sudo apt-get -qq install php-curl php-mbstring php-zip php-dom
         pip -q install PyYAML==5.3.1
@@ -38,7 +39,7 @@ tasks:
         # First create a version with git hash (label)
         eb appversion -a $APP_NAME -c -l $VERSION
 
-        # Deploy to $VERSION to $ENV_NAME envrionment
+        # Deploy $VERSION on $ENV_NAME envrionment
         eb deploy $ENV_NAME --version $VERSION
         
 trigger:
