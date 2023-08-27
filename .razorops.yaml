@@ -1,18 +1,27 @@
 version: v2
 
-# global:
-#   runner:
-#     containers:
-#       - image: python
-
 tasks:    
   deploy:
     variables:
-    - APP_NAME=cloudmey
-    # - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
+    - APP_NAME=yii2-sample
+    - VERSION=${CI_COMMIT_SHA:0:8}
+    - ENV_NAME=Yii2-sample-env-1
+    - AWS_REGION=us-east-1
     steps:
     - checkout
     - commands:
+      - |
+        if [[ $CI_REPO_BRANCH == "prod" ]]; then
+                  VALUES_FILE=values-prod.yaml
+                  ENV_NAME=prod
+          
+          elif [[ $CI_REPO_BRANCH == "stage" ]]; then
+                  ENV_NAME=Yii2-sample-env-1
+          
+          else
+              echo "Unsupported release branch: $CI_REPO_BRANCH "
+              exit 1
+        fi
       - |
         ls
         sudo apt update
@@ -20,30 +29,13 @@ tasks:
         pip install PyYAML==5.3.1
         pip install awsebcli --upgrade --user
         eb --version
-        eb init $ENV_NAME --platform PHP --region $AWS_DEFAULT_REGION --quiet
-        eb list
+        eb init $APP_NAME --platform PHP --region $AWS_REGION --quiet
         
-      
-  # build-image:
-  #   steps:
-  #   - checkout
-  #   - commands: 
-  #     - helm lint $HELM_CHART
-  #   - docker/build:
-  #       image: registry.digitalocean.com/cloudmeyrazo/newprdgamesmela
-  #       tags: ["latest", "${CI_COMMIT_SHA:0:8}", "${CI_REPO_BRANCH}"]
-  #       push: true
-  #     if: branch == "prod"
+        # First create a version with git hash (label)
+        # eb appversion -a $APP_NAME -c -l VERSION
 
-  #   - docker/build:
-  #       image: registry.digitalocean.com/cloudmeyrazo/newstggamesmela
-  #       tags: ["latest", "${CI_COMMIT_SHA:0:8}", "${CI_REPO_BRANCH}"]
-  #       push: true
-  #     if: branch == "stage"
-
-  #   - workspace/persist:
-  #       paths: [deploy]
-
-
-# trigger:
-  # when: branch in ("stage", "prod")
+        # Deploy to $VERSION to $ENV_NAME envrionment
+        # eb deploy $ENV_NAME --version $VERSION
+        
+trigger:
+  when: branch in ("stage", "prod")
