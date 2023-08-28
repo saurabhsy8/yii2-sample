@@ -8,30 +8,48 @@ tasks:
     - ENV_NAME=Yii2-sample-env-1
     - AWS_REGION=us-east-1
     - PLATFORM=PHP
+    - SECRET_NAME="staging/compliantlms/rds"
+    - PARAMETER_NAME="clms_common_config_params"
+    - DOMAIN="compliantlms.com"
+    - POST_SCRIPT=".platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh"
+    - PROXY_CONF=".platform/httpd/01-proxy.conf"
+    - ERROR_LOG="compliantlms_com"
     steps:
     - checkout
     - commands:
       - |
         if [[ $CI_REPO_BRANCH == "prod" ]]; then
                   ENV_NAME=prod
+                  SECRET_NAME="production/cloudemy/rds"
+                  PARAMETER_NAME="cdmy_common_config_params"
+                  DOMAIN=cloudemy.app
+                  ERROR_LOG="cloudemy_app"
 
           elif [[ $CI_REPO_BRANCH == "stage" ]]; then
-                  ENV_NAME=test
-
-          elif [[ $CI_REPO_BRANCH == "stage" ]]; then
-                  ENV_NAME=Yii2-sample-env-1
-          
+                  ENV_NAME=stage
+                  SECRET_NAME="staging/compliantlms/rds"
+                  PARAMETER_NAME="clms_common_config_params"
           else
               echo "Unsupported release branch: $CI_REPO_BRANCH "
               exit 1
         fi
+      - |
+        # Update $POST_SCRIPT
+        sed -i "s/SECRET_NAME/$SECRET_NAME/g" $POST_SCRIPT
+        sed -i "s/AWS_REGION/$AWS_REGION/g" $POST_SCRIPT
+        sed -i "s/PARAMETER_NAME/$PARAMETER_NAME/g" $POST_SCRIPT
+
+        # Update $PROXY_CONF
+        sed -i "s/DOMAIN/$DOMAIN/g" $PROXY_CONF
+        sed -i "s/ERROR_LOG/$ERROR_LOG/g" $PROXY_CONF
+        # cloudemy_app_error.log
+
       - |
         sudo apt -qq update
         # sudo apt-get -qq install php-curl php-mbstring php-zip php-dom
         pip -q install PyYAML==5.3.1
         pip -q install awsebcli --upgrade --user
         
-
         eb init $APP_NAME --platform $PLATFORM --region $AWS_REGION --quiet
         
         eb list
