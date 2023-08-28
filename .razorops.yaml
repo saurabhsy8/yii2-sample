@@ -43,7 +43,9 @@ tasks:
         sed -i "s/DOMAIN/$DOMAIN/g" $PROXY_CONF
         sed -i "s/ERROR_LOG/$ERROR_LOG/g" $PROXY_CONF
         # cloudemy_app_error.log
-
+        
+        git add $PROXY_CONF $ERROR_LOG
+        git commit -m "update $PROXY_CONF $ERROR_LOG"
       - |
         sudo apt -qq update
         # sudo apt-get -qq install php-curl php-mbstring php-zip php-dom
