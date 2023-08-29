@@ -51,6 +51,9 @@ tasks:
         cat $PROXY_CONF 
         cat $POST_SCRIPT
         
+        git config --global user.email "saurabh@codecrux.com"
+        git config --global user.name "saurabh"
+
         git add $PROXY_CONF $POST_SCRIPT
         git commit -m "update $PROXY_CONF $POST_SCRIPT"
 
