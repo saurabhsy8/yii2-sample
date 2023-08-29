@@ -29,6 +29,8 @@ tasks:
                   ENV_NAME=stage
                   SECRET_NAME="staging/compliantlms/rds"
                   PARAMETER_NAME="clms_common_config_params"
+                  DOMAIN=cloudemy.lms
+                  ERROR_LOG="cloudemy_lms"
           else
               echo "Unsupported release branch: $CI_REPO_BRANCH "
               exit 1
@@ -46,6 +48,10 @@ tasks:
         
         git add $PROXY_CONF $ERROR_LOG
         git commit -m "update $PROXY_CONF $ERROR_LOG"
+
+        cat $PROXY_CONF 
+
+        cat $ERROR_LOG
       - |
         sudo apt -qq update
         # sudo apt-get -qq install php-curl php-mbstring php-zip php-dom
@@ -54,13 +60,13 @@ tasks:
         
         eb init $APP_NAME --platform $PLATFORM --region $AWS_REGION --quiet
         
-        eb list
+        # eb list
         
         # First create a version with git hash (label)
         eb appversion -a $APP_NAME -c -l $VERSION
 
         # Deploy $VERSION on $ENV_NAME envrionment
-        eb deploy $ENV_NAME --version $VERSION
+        # eb deploy $ENV_NAME --version $VERSION
         
 trigger:
   when: branch in ("stage", "prod")
