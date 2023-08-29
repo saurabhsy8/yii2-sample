@@ -36,6 +36,7 @@ tasks:
               exit 1
         fi
       - |
+        ls -lah
         # Update $POST_SCRIPT
         sed -i "s|SECRET_NAME|$SECRET_NAME|g" $POST_SCRIPT
         sed -i "s|AWS_REGION|$AWS_REGION|g" $POST_SCRIPT
