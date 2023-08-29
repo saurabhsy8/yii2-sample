@@ -37,7 +37,7 @@ tasks:
         fi
       - |
         cat $PROXY_CONF 
-        cat $ERROR_LOG
+        cat $POST_SCRIPT
         # Update $POST_SCRIPT
         sed -i "s|SECRET_NAME|$SECRET_NAME|g" $POST_SCRIPT
         sed -i "s|AWS_REGION|$AWS_REGION|g" $POST_SCRIPT
