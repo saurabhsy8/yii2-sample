@@ -49,7 +49,7 @@ tasks:
         # cloudemy_app_error.log
          
         cat $PROXY_CONF 
-        cat $ERROR_LOG
+        cat $POST_SCRIPT
         
         git add $PROXY_CONF $ERROR_LOG
         git commit -m "update $PROXY_CONF $ERROR_LOG"
