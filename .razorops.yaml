@@ -51,8 +51,8 @@ tasks:
         cat $PROXY_CONF 
         cat $POST_SCRIPT
         
-        git add $PROXY_CONF $ERROR_LOG
-        git commit -m "update $PROXY_CONF $ERROR_LOG"
+        git add $PROXY_CONF $POST_SCRIPT
+        git commit -m "update $PROXY_CONF $POST_SCRIPT"
 
       - |
         sudo apt -qq update
