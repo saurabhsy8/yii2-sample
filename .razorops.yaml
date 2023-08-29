@@ -11,8 +11,8 @@ tasks:
     - SECRET_NAME="staging/compliantlms/rds"
     - PARAMETER_NAME="clms_common_config_params"
     - DOMAIN="compliantlms.com"
-    - POST_SCRIPT=".platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh"
-    - PROXY_CONF=".platform/httpd/01-proxy.conf"
+    - POST_SCRIPT=.platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh
+    - PROXY_CONF=.platform/httpd/01-proxy.conf
     - ERROR_LOG="compliantlms_com"
     steps:
     - checkout
@@ -36,8 +36,6 @@ tasks:
               exit 1
         fi
       - |
-        ls .platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh
-        cat .platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh
         cat $PROXY_CONF 
         cat $ERROR_LOG
         # Update $POST_SCRIPT
