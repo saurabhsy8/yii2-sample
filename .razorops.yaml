@@ -38,6 +38,8 @@ tasks:
       - |
         ls .platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh
         cat .platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh
+        cat $PROXY_CONF 
+        cat $ERROR_LOG
         # Update $POST_SCRIPT
         sed -i "s|SECRET_NAME|$SECRET_NAME|g" $POST_SCRIPT
         sed -i "s|AWS_REGION|$AWS_REGION|g" $POST_SCRIPT
