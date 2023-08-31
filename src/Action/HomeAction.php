@@ -14,7 +14,7 @@ final class HomeAction
         $response = $responseFactory->createResponse();
 
         $response->getBody()->write(
-            'Hello World This change is from CI' . '<br>' . 'My first website with ' . '<strong>' . 'Yii 3.0!' . '</strong>'
+            'Allocate and Invest' . '<br>' . 'My first website with ' . '<strong>' . 'Yii 3.0!' . '</strong>'
         );
 
         return $response;

@@ -11,8 +11,8 @@ tasks:
     - SECRET_NAME="staging/compliantlms/rds"
     - PARAMETER_NAME="clms_common_config_params"
     - DOMAIN="compliantlms.com"
-    - POST_SCRIPT=".platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh"
-    - PROXY_CONF=".platform/httpd/01-proxy.conf"
+    - POST_SCRIPT=.platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh
+    - PROXY_CONF=.platform/httpd/01-proxy.conf
     - ERROR_LOG="compliantlms_com"
     steps:
     - checkout
@@ -36,22 +36,27 @@ tasks:
               exit 1
         fi
       - |
+        cat $PROXY_CONF 
+        cat $POST_SCRIPT
         # Update $POST_SCRIPT
-        sed -i "s/SECRET_NAME/$SECRET_NAME/g" $POST_SCRIPT
-        sed -i "s/AWS_REGION/$AWS_REGION/g" $POST_SCRIPT
-        sed -i "s/PARAMETER_NAME/$PARAMETER_NAME/g" $POST_SCRIPT
+        sed -i "s|SECRET_NAME|$SECRET_NAME|g" $POST_SCRIPT
+        sed -i "s|AWS_REGION|$AWS_REGION|g" $POST_SCRIPT
+        sed -i "s|PARAMETER_NAME|$PARAMETER_NAME|g" $POST_SCRIPT
 
         # Update $PROXY_CONF
-        sed -i "s/DOMAIN/$DOMAIN/g" $PROXY_CONF
-        sed -i "s/ERROR_LOG/$ERROR_LOG/g" $PROXY_CONF
+        sed -i "s|DOMAIN|$DOMAIN|g" $PROXY_CONF
+        sed -i "s|ERROR_LOG|$ERROR_LOG|g" $PROXY_CONF
         # cloudemy_app_error.log
-        
-        git add $PROXY_CONF $ERROR_LOG
-        git commit -m "update $PROXY_CONF $ERROR_LOG"
-
+         
         cat $PROXY_CONF 
+        cat $POST_SCRIPT
+        
+        git config --global user.email "saurabh@codecrux.com"
+        git config --global user.name "saurabh"
 
-        cat $ERROR_LOG
+        git add $PROXY_CONF $POST_SCRIPT
+        git commit -m "update $PROXY_CONF $POST_SCRIPT"
+
       - |
         sudo apt -qq update
         # sudo apt-get -qq install php-curl php-mbstring php-zip php-dom
