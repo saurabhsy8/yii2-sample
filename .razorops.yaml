@@ -8,12 +8,6 @@ tasks:
     - ENV_NAME=Yii2-sample-env-1
     - AWS_REGION=us-east-1
     - PLATFORM=PHP
-    - SECRET_NAME="staging/compliantlms/rds"
-    - PARAMETER_NAME="clms_common_config_params"
-    - DOMAIN="compliantlms.com"
-    - POST_SCRIPT=.platform/hooks/postdeploy/01_secret_manager_set_db_and_params.sh
-    - PROXY_CONF=.platform/httpd/01-proxy.conf
-    - ERROR_LOG="compliantlms_com"
     steps:
     - checkout
     - commands:
@@ -27,36 +21,10 @@ tasks:
 
           elif [[ $CI_REPO_BRANCH == "stage" ]]; then
                   ENV_NAME=stage
-                  SECRET_NAME="staging/compliantlms/rds"
-                  PARAMETER_NAME="clms_common_config_params"
-                  DOMAIN=cloudemy.lms
-                  ERROR_LOG="cloudemy_lms"
           else
               echo "Unsupported release branch: $CI_REPO_BRANCH "
               exit 1
         fi
-      - |
-        cat $PROXY_CONF 
-        cat $POST_SCRIPT
-        # Update $POST_SCRIPT
-        sed -i "s|SECRET_NAME|$SECRET_NAME|g" $POST_SCRIPT
-        sed -i "s|AWS_REGION|$AWS_REGION|g" $POST_SCRIPT
-        sed -i "s|PARAMETER_NAME|$PARAMETER_NAME|g" $POST_SCRIPT
-
-        # Update $PROXY_CONF
-        sed -i "s|DOMAIN|$DOMAIN|g" $PROXY_CONF
-        sed -i "s|ERROR_LOG|$ERROR_LOG|g" $PROXY_CONF
-        # cloudemy_app_error.log
-         
-        cat $PROXY_CONF 
-        cat $POST_SCRIPT
-        
-        git config --global user.email "saurabh@codecrux.com"
-        git config --global user.name "saurabh"
-
-        git add $PROXY_CONF $POST_SCRIPT
-        git commit -m "update $PROXY_CONF $POST_SCRIPT"
-
       - |
         sudo apt -qq update
         # sudo apt-get -qq install php-curl php-mbstring php-zip php-dom
@@ -65,13 +33,11 @@ tasks:
         
         eb init $APP_NAME --platform $PLATFORM --region $AWS_REGION --quiet
         
-        # eb list
-        
         # First create a version with git hash (label)
         eb appversion -a $APP_NAME -c -l $VERSION
 
         # Deploy $VERSION on $ENV_NAME envrionment
-        # eb deploy $ENV_NAME --version $VERSION
+        eb deploy $ENV_NAME --version $VERSION
         
 trigger:
   when: branch in ("stage", "prod")
