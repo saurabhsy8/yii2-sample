@@ -3,9 +3,9 @@ version: v2
 tasks:    
   deploy:
     variables:
-    - APP_NAME=yii2-sample
+    - APP_NAME=php-web-app
     - VERSION=${CI_COMMIT_SHA:0:8}
-    - ENV_NAME=Yii2-sample-env-1
+    - ENV_NAME=test
     - AWS_REGION=us-east-1
     - PLATFORM=PHP
     steps:
@@ -14,13 +14,9 @@ tasks:
       - |
         if [[ $CI_REPO_BRANCH == "prod" ]]; then
                   ENV_NAME=prod
-                  SECRET_NAME="production/cloudemy/rds"
-                  PARAMETER_NAME="cdmy_common_config_params"
-                  DOMAIN=cloudemy.app
-                  ERROR_LOG="cloudemy_app"
 
-          elif [[ $CI_REPO_BRANCH == "stage" ]]; then
-                  ENV_NAME=stage
+          elif [[ $CI_REPO_BRANCH == "test" ]]; then
+                  ENV_NAME=test
           else
               echo "Unsupported release branch: $CI_REPO_BRANCH "
               exit 1
@@ -40,4 +36,4 @@ tasks:
         eb deploy $ENV_NAME --version $VERSION
         
 trigger:
-  when: branch in ("stage", "prod")
+  when: branch in ("test", "prod")
