@@ -14,7 +14,7 @@ final class HomeAction
         $response = $responseFactory->createResponse();
 
         $response->getBody()->write(
-            'Allocate and Invest' . '<br>' . 'My first website with ' . '<strong>' . 'Yii 3.0!' . '</strong>'
+            'This change is from pipeline'. '<br>' . 'My first website with ' . '<strong>' . 'Yii 3.0!' . '</strong>'
         );
 
         return $response;
