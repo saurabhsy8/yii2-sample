@@ -9,3 +9,5 @@ tasks:
         cat ~/.kube/config
         echo $KUBECONFIG
         kubectl config use-context do-sfo3-kait-stage-k8s
+        kubectl config use-context do-sfo3-kait-prod-k8s
+
