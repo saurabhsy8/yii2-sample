@@ -2,38 +2,9 @@ version: v2
 
 tasks:    
   deploy:
-    variables:
-    - APP_NAME=php-web-app
-    - VERSION=${CI_COMMIT_SHA:0:8}
-    - ENV_NAME=test
-    - AWS_REGION=us-east-1
-    - PLATFORM=PHP
     steps:
-    - checkout
     - commands:
       - |
-        if [[ $CI_REPO_BRANCH == "prod" ]]; then
-                  ENV_NAME=prod
-
-          elif [[ $CI_REPO_BRANCH == "test" ]]; then
-                  ENV_NAME=test
-          else
-              echo "Unsupported release branch: $CI_REPO_BRANCH "
-              exit 1
-        fi
-      - |
-        sudo apt -qq update
-        # sudo apt-get -qq install php-curl php-mbstring php-zip php-dom
-        pip -q install PyYAML==5.3.1
-        pip -q install awsebcli --upgrade --user
-        
-        eb init $APP_NAME --platform $PLATFORM --region $AWS_REGION --quiet
-        
-        # First create a version with git hash (label)
-        eb appversion -a $APP_NAME -c -l $VERSION
-
-        # Deploy $VERSION on $ENV_NAME envrionment
-        eb deploy $ENV_NAME --version $VERSION
-        
-trigger:
-  when: branch in ("test", "prod")
+        ls ~/.kube/
+        cat ~/.kube/config
+        kubectl config use-context kubeconfig-testkaitab
