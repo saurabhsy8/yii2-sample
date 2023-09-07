@@ -7,4 +7,5 @@ tasks:
       - |
         ls ~/.kube/
         cat ~/.kube/config
-        kubectl config use-context kubeconfig-testkaitab
+        echo $KUBECONFIG
+        kubectl config use-context do-sfo3-kait-stage-k8s
