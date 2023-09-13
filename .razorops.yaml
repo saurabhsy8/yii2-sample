@@ -28,9 +28,9 @@ tasks:
                   docker pull saurabh3460/yii2-prod:latest
                   docker stop yii2-prod
                   # docker rm yii2-prod
-                  docker run -d --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
+                  docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
                   docker rmi -f $(docker images -f "dangling=true" -q)
-                ENDSSH
+            ENDSSH
 
           elif [[ $CI_REPO_BRANCH == "stage" ]]; then
                   
@@ -38,9 +38,9 @@ tasks:
                   docker pull saurabh3460/yii2-stage:latest
                   docker stop yii2-stage 
                   # docker rm yii2-stage
-                  docker run -d --name yii2-stage -p 80:80 saurabh3460/yii2-stage:latest
+                  docker run -d --rm --name yii2-stage -p 80:80 saurabh3460/yii2-stage:latest
                   docker rmi -f $(docker images -f "dangling=true" -q)
-                ENDSSH
+            ENDSSH
 
           else
               echo "Unsupported release branch: $CI_REPO_BRANCH "
