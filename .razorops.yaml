@@ -14,24 +14,22 @@ tasks:
         tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
         push: true
       if: branch == "stage"
-    - workspace/persist:
-        paths: [deploy]
 
   deploy:
     depends: [build-image]
     variables:
     - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
     steps:
-
     - commands:
       - |
         if [[ $CI_REPO_BRANCH == "ec2" ]]; then
 
             ssh -v ubuntu@cloud-native.me <<'ENDSSH'
                   docker pull saurabh3460/yii2-prod:latest
-                  docker stop yii2-prod 
-                  docker rm yii2-prod
-                  docker run -d --name yii2-prod saurabh3460/yii2-prod:latest
+                  docker stop yii2-prod
+                  # docker rm yii2-prod
+                  docker run -d --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
+                  docker rmi -f $(docker images -f "dangling=true" -q)
                 ENDSSH
 
           elif [[ $CI_REPO_BRANCH == "stage" ]]; then
@@ -39,8 +37,9 @@ tasks:
             ssh -v ubuntu@cloud-native.me <<'ENDSSH'
                   docker pull saurabh3460/yii2-stage:latest
                   docker stop yii2-stage 
-                  docker rm yii2-stage
-                  docker run -d --name yii2-stage saurabh3460/yii2-stage:latest
+                  # docker rm yii2-stage
+                  docker run -d --name yii2-stage -p 80:80 saurabh3460/yii2-stage:latest
+                  docker rmi -f $(docker images -f "dangling=true" -q)
                 ENDSSH
 
           else
