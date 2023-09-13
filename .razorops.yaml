@@ -23,7 +23,7 @@ tasks:
     - run: |
         if [[ $CI_REPO_BRANCH == "ec2" ]]; then
 
-          ssh -v ubuntu@cloud-native.me <<<"
+          ssh -v ubuntu@34.230.69.26 <<<"
         docker pull saurabh3460/yii2-prod:latest
         docker stop yii2-prod
         # docker rm yii2-prod
