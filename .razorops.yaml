@@ -23,34 +23,42 @@ tasks:
     - commands:
       - |
         if [[ $CI_REPO_BRANCH == "ec2" ]]; then
-
-            ssh -v ubuntu@cloud-native.me <<'ENDSSH'
-            docker pull saurabh3460/yii2-prod:latest
-            docker stop yii2-prod
-            # docker rm yii2-prod
-            docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
-            docker rmi -f $(docker images -f "dangling=true" -q)
-            ENDSSH
-
-          elif [[ $CI_REPO_BRANCH == "stage" ]]; then
-                  
-            ssh -v ubuntu@cloud-native.me <<'ENDSSH'
-            docker pull saurabh3460/yii2-stage:latest
-            docker stop yii2-stage 
-            # docker rm yii2-stage
-            docker run -d --rm --name yii2-stage -p 80:80 saurabh3460/yii2-stage:latest
-            docker rmi -f $(docker images -f "dangling=true" -q)
-            ENDSSH
-
-          else
-              echo "Unsupported release branch: $CI_REPO_BRANCH "
-              exit 1
+          ssh -v ubuntu@cloud-native.me <<'ENDSSH'
+docker pull saurabh3460/yii2-prod:latest
+docker stop yii2-prod
+# docker rm yii2-prod
+docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
+docker rmi -f $(docker images -f "dangling=true" -q)
+ENDSSH
+        elif [[ $CI_REPO_BRANCH == "stage" ]]; then
+          ssh -v ubuntu@cloud-native.me <<'ENDSSH'
+docker pull saurabh3460/yii2-stage:latest
+docker stop yii2-stage
+# docker rm yii2-stage
+docker run -d --rm --name yii2-stage -p 80:80 saurabh3460/yii2-stage:latest
+docker rmi -f $(docker images -f "dangling=true" -q)
+ENDSSH
+        else
+          echo "Unsupported release branch: $CI_REPO_BRANCH"
+          exit 1
         fi
 
     # - commands:
     #   - |
     #     ssh -v ubuntu@ec2.com <<'ENDSSH'
     #       docker pull 
+
+  deploy:
+    depends: [build-backend, build-frontend]
+    steps:
+    - workspace/attach
+    - run: |
+        scp docker-compose.yaml ubuntu@cloud-native.me:docker-compose.yaml
+        ssh -v ubuntu@cloud-native.me <<'ENDSSH'
+          docker-compose pull
+          docker-compose down
+          docker-compose up -d
+        ENDSSH
 
 trigger:
   when: branch in ("stage", "main", "ec2")
