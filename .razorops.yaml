@@ -16,7 +16,6 @@ tasks:
   #     if: branch == "stage"
 
   deploy:
-    # depends: [build-image]
     variables:
     - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
     steps:
