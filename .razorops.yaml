@@ -21,18 +21,26 @@ tasks:
     - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
     steps:
     - run: |
-        if [[ $CI_REPO_BRANCH == "ec2" ]]; then
-          ls -lah ~/.ssh
 
         ssh ubuntu@34.230.69.26 <<'EOF'
           docker pull saurabh3460/yii2-prod:latest
           docker stop yii2-prod
           # docker rm yii2-prod
           docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
-          # docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
+          docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
         EOF
+        # if [[ $CI_REPO_BRANCH == "ec2" ]]; then
+        #   ls -lah ~/.ssh
 
-        elif [[ $CI_REPO_BRANCH == "stage" ]]; then
+        # ssh ubuntu@34.230.69.26 <<'EOF'
+        #   docker pull saurabh3460/yii2-prod:latest
+        #   docker stop yii2-prod
+        #   # docker rm yii2-prod
+        #   docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
+        #   docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
+        # EOF
+
+        # elif [[ $CI_REPO_BRANCH == "stage" ]]; then
                   
         # ssh ubuntu@34.230.69.26 <<'EOF'
         #   docker pull saurabh3460/yii2-prod:latest
@@ -42,10 +50,10 @@ tasks:
         #   docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
         # EOF
 
-          else
-              echo "Unsupported release branch: $CI_REPO_BRANCH "
-              exit 1
-        fi
+        #   else
+        #       echo "Unsupported release branch: $CI_REPO_BRANCH "
+        #       exit 1
+        # fi
 
     # - commands:
     #   - |
