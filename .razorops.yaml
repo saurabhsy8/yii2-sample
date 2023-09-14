@@ -1,56 +1,51 @@
 version: v2
     
 tasks:    
-  build-image:
-    steps:
-    - checkout
-    - docker/build:
-        image: saurabh3460/yii2-prod
-        tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
-        push: true
-      if: branch == "ec2"
-    - docker/build:
-        image: saurabh3460/yii2-stage
-        tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
-        push: true
-      if: branch == "stage"
+  # build-image:
+  #   steps:
+  #   - checkout
+  #   - docker/build:
+  #       image: saurabh3460/yii2-prod
+  #       tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
+  #       push: true
+  #     if: branch == "ec2"
+  #   - docker/build:
+  #       image: saurabh3460/yii2-stage
+  #       tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
+  #       push: true
+  #     if: branch == "stage"
 
   deploy:
-    depends: [build-image]
+    # depends: [build-image]
     variables:
     - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
     steps:
     - run: |
         if [[ $CI_REPO_BRANCH == "ec2" ]]; then
-          ls -lah ~/.ssh
+            ls -lah ~/.ssh
 
-          ssh -v ubuntu@34.230.69.26 <<<"
-        docker pull saurabh3460/yii2-prod:latest
-        docker stop yii2-prod
-        # docker rm yii2-prod
-        docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
-        docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
-        "
+            ssh -v ubuntu@34.230.69.26 <<'EOF'
+          docker pull saurabh3460/yii2-prod:latest
+          docker stop yii2-prod
+          # docker rm yii2-prod
+          docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
+          docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
+          EOF
 
           elif [[ $CI_REPO_BRANCH == "stage" ]]; then
                   
-          ssh -v ubuntu@34.230.69.26 <<<"
-        docker pull saurabh3460/yii2-stage:latest
-        docker stop yii2-stage
-        # docker rm yii2-stage
-        docker run -d --rm --name yii2-stage -p 80:80 saurabh3460/yii2-stage:latest
-        docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
-        "
+            ssh -v ubuntu@34.230.69.26 <<'EOF'
+          docker pull saurabh3460/yii2-stage:latest
+          docker stop yii2-stage
+          # docker rm yii2-stage
+          docker run -d --rm --name yii2-stage -p 80:80 saurabh3460/yii2-stage:latest
+          docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
+          <<'EOF'
 
           else
               echo "Unsupported release branch: $CI_REPO_BRANCH "
               exit 1
         fi
-
-    # - commands:
-    #   - |
-    #     ssh -v ubuntu@ec2.com <<'ENDSSH'
-    #       docker pull 
 
 trigger:
   when: branch in ("stage", "main", "ec2")
