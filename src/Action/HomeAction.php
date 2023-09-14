@@ -14,7 +14,7 @@ final class HomeAction
         $response = $responseFactory->createResponse();
 
         $response->getBody()->write(
-            'I am on ec2 :)' . '<br>' . 'My first website with ' . '<strong>' . 'Yii 3.0!' . '</strong>'
+            'I am on ec2 2nd :)' . '<br>' . 'My first website with ' . '<strong>' . 'Yii 3.0!' . '</strong>'
         );
 
         return $response;
