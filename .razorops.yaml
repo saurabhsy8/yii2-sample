@@ -27,10 +27,10 @@ tasks:
           docker pull saurabh3460/yii2-prod:latest
           docker stop yii2-prod
           docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
-          
+
           if [ -n "$(docker images -f 'dangling=true' -q)" ]; then 
             # remove the dangling images
-            docker rmi -f $(docker images -f 'dangling=true' -q)
+            docker rmi $(docker images -f 'dangling=true' -q)
           fi
         EOF
 
@@ -42,7 +42,7 @@ tasks:
           docker run -d --rm --name yii2-stage -p 8080:80 saurabh3460/yii2-stage:latest
           if [ -n "$(docker images -f 'dangling=true' -q)" ]; then 
             # remove the dangling images
-            docker rmi -f $(docker images -f 'dangling=true' -q)
+            docker rmi $(docker images -f 'dangling=true' -q)
           fi
         EOF
 
