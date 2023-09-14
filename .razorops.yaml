@@ -34,7 +34,7 @@ tasks:
 
           elif [[ $CI_REPO_BRANCH == "stage" ]]; then
                   
-          ssh -v ubuntu@cloud-native.me <<'ENDSSH'
+          ssh -v ubuntu@34.230.69.26 <<'ENDSSH'
         docker pull saurabh3460/yii2-stage:latest
         docker stop yii2-stage 
         # docker rm yii2-stage
