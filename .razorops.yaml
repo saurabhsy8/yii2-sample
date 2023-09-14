@@ -2,21 +2,21 @@ version: v2
     
 tasks:    
   build-image:
-    steps:
-    - checkout
-    - docker/build:
-        image: saurabh3460/yii2-prod
-        tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
-        push: true
-      if: branch == "ec2"
-    - docker/build:
-        image: saurabh3460/yii2-stage
-        tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
-        push: true
-      if: branch == "stage"
+    # steps:
+    # - checkout
+    # - docker/build:
+    #     image: saurabh3460/yii2-prod
+    #     tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
+    #     push: true
+    #   if: branch == "ec2"
+    # - docker/build:
+    #     image: saurabh3460/yii2-stage
+    #     tags: ["latest", "${CI_COMMIT_SHA:0:8}"]
+    #     push: true
+    #   if: branch == "stage"
 
   deploy:
-    depends: [build-image]
+    # depends: [build-image]
     variables:
     - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
     steps:
