@@ -20,7 +20,8 @@ tasks:
     variables:
     - DOCKER_TAG=${CI_COMMIT_SHA:0:8}
     steps:
-    - command: |
+    - commands:
+      - |
         ssh ubuntu@34.230.69.26 <<'EOF'
           docker pull saurabh3460/yii2-prod:latest
           docker stop yii2-prod
