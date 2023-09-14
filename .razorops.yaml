@@ -27,19 +27,19 @@ tasks:
           ssh -v ubuntu@34.230.69.26 <<<"
         docker pull saurabh3460/yii2-prod:latest
         docker stop yii2-prod
-        docker rm yii2-prod
+        # docker rm yii2-prod
         docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
-        docker rmi -f $(docker images -f "dangling=true" -q)
+        docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
         "
 
           elif [[ $CI_REPO_BRANCH == "stage" ]]; then
                   
           ssh -v ubuntu@34.230.69.26 <<'ENDSSH'
         docker pull saurabh3460/yii2-stage:latest
-        docker stop yii2-stage 
+        docker stop yii2-stage
         # docker rm yii2-stage
         docker run -d --rm --name yii2-stage -p 80:80 saurabh3460/yii2-stage:latest
-        docker rmi -f $(docker images -f "dangling=true" -q)
+        docker rmi -f $(docker images -f "dangling=true" -q) 2>/dev/null
         ENDSSH
 
           else
