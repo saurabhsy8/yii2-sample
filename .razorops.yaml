@@ -22,11 +22,11 @@ tasks:
     steps:
     - run: |
         if [[ $CI_REPO_BRANCH == "ec2" ]]; then
-          ls -lah ~/.ssh
 
         ssh ubuntu@34.230.69.26 <<'EOF'
-          chmod +x scripts/prod.sh
-          ./scripts/prod.sh
+          docker pull saurabh3460/yii2-prod:latest
+          docker stop yii2-prod
+          docker run -d --rm --name yii2-prod -p 80:80 saurabh3460/yii2-prod:latest
         EOF
 
         elif [[ $CI_REPO_BRANCH == "stage" ]]; then
