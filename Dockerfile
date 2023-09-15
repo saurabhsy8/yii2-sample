@@ -24,7 +24,7 @@ COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php --install-dir=. --filename=composer
 RUN mv composer /usr/local/bin/
-COPY . /var/www/html/
+# COPY . /var/www/html/
 #RUN mkdir /var/www/html/lib/
 #COPY lib/ /var/www/html/lib/
 #COPY composer.json /var/www/html/
