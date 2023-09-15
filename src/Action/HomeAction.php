@@ -14,7 +14,7 @@ final class HomeAction
         $response = $responseFactory->createResponse();
 
         $response->getBody()->write(
-            'I am on ec2 4th :)' . '<br>' . 'nix just rock with ' . '<strong>' . 'Linux' . '</strong>'
+            'I am on ec2 with docker volume :)' . '<br>' . 'nix just rock with ' . '<strong>' . 'Linux' . '</strong>'
         );
 
         return $response;
