@@ -8,11 +8,11 @@ tasks:
 
         if [[ $CI_REPO_BRANCH == "ec2-docker-voloum" ]]; then
 
-           rsync -a ./* ubuntu@34.230.69.26:/home/ubuntu/hh-dev
+          rsync -a ./* ubuntu@34.230.69.26:/home/ubuntu/hh-dev
 
         elif [[ $CI_REPO_BRANCH == "stage" ]]; then
           
-             rsync -a ./* ubuntu@<stage-vm-ip>:/home/ubuntu/hh-dev
+          rsync -a ./* ubuntu@<stage-vm-ip>:/home/ubuntu/hh-dev
 
         else
               echo "Unsupported release branch: $CI_REPO_BRANCH "

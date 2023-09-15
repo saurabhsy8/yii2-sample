@@ -14,7 +14,7 @@ final class HomeAction
         $response = $responseFactory->createResponse();
 
         $response->getBody()->write(
-            'Complete change on system with eBPF :)' . '<br>' . 'nix just rock with ' . '<strong>' . 'Linux' . '</strong>'
+            'Complete change on system with eBPF and Wasm  :)' . '<br>' . 'nix just rock with ' . '<strong>' . 'Linux' . '</strong>'
         );
 
         return $response;
