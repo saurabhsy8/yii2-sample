@@ -14,7 +14,7 @@ final class HomeAction
         $response = $responseFactory->createResponse();
 
         $response->getBody()->write(
-            'change from ec2-docker-volume branch' . '<br>' . 'nix just rock with ' . '<strong>' . 'Linux' . '</strong>'
+            'fix RSA key' . '<br>' . 'nix just rock with ' . '<strong>' . 'Linux' . '</strong>'
         );
 
         return $response;
