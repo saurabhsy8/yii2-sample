@@ -5,7 +5,8 @@ tasks:
     steps:
     - checkout
     - run: |
-
+        ls ~/.ssh
+        cat ~/.ssh/cloud-native.me
         if [[ $CI_REPO_BRANCH == "ec2-docker-voloum" ]]; then
 
           rsync -a ./* ubuntu@34.230.69.26:/home/ubuntu/hh-dev
